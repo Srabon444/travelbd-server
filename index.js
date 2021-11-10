@@ -36,6 +36,17 @@ async function run() {
             res.send(packages);
         })
 
+        // get all orders
+        app.get('/allOrders', async (req, res) => {
+            const cursor = ordersCollection.find({})
+            const orders = await cursor.toArray();
+            res.send(orders)
+        })
+
+
+
+
+
         // add Product
         app.post('/addProduct', async (req, res) => {
             const productDetails = req.body;
@@ -86,6 +97,20 @@ async function run() {
                 console.log("No documents matched the query. Deleted 0 documents.");
             }
         })
+
+
+        // order status update
+        app.put("/statusUpdate/:id", async (req, res) => {
+            const filter = { _id: ObjectId(req.params.id) };
+            console.log(req.params.id);
+            const result = await ordersCollection.updateOne(filter, {
+                $set: {
+                    status: req.body.newStatus,
+                },
+            });
+            res.send(result);
+            console.log(result);
+        });
 
 
 
