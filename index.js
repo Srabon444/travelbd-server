@@ -25,6 +25,7 @@ async function run() {
         const database = client.db('travelbdtshirtdb')
         const productsCollection = database.collection("allProducts");
         const reviewsCollection = database.collection("allReviews");
+        const ordersCollection = database.collection("allOrders");
         console.log('Mongodb Connect successfully!');
 
         // get all products
@@ -33,7 +34,6 @@ async function run() {
             const cursor = productsCollection.find({})
             const packages = await cursor.toArray();
             res.send(packages);
-
         })
 
         // add Product
@@ -44,12 +44,27 @@ async function run() {
 
         })
 
+        // add Place Order details
+        app.post('/addOrder', async (req, res) => {
+            const orderDetails = req.body;
+            const result = await ordersCollection.insertOne(orderDetails);
+            res.send(result);
+        })
+
         // add Review
         app.post('/addReview', async (req, res) => {
             const review = req.body;
             const result = await reviewsCollection.insertOne(review);
             res.send(result);
         })
+
+        // get All Review
+        app.get('/reviews', async (req, res) => {
+            const cursor = reviewsCollection.find({})
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
 
 
 
