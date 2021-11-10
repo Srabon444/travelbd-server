@@ -65,6 +65,13 @@ async function run() {
             res.send(result);
         })
 
+        // find specific order by email
+        app.get('/myOrder', (req, res) => {
+            ordersCollection.find({ email: req.query.email })
+                .toArray((err, documents) => {
+                    res.send(documents)
+                })
+        })
 
 
 
