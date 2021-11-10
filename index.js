@@ -66,11 +66,17 @@ async function run() {
         })
 
         // find specific order by email
-        app.get('/myOrder', (req, res) => {
+        app.get('/allOrders', (req, res) => {
             ordersCollection.find({ email: req.query.email })
                 .toArray((err, documents) => {
                     res.send(documents)
                 })
+        })
+
+        // delete user order
+        app.delete('/allOrders/:id', async (req, res) => {
+            // const id = req.query.id
+            console.log(req.query._id);
         })
 
 
