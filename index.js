@@ -26,12 +26,21 @@ async function run() {
         const productsCollection = database.collection("allProducts");
         console.log('Mongodb Connect successfully!');
 
-        // GET API
+        // get all products
         app.get('/products', async (req, res) => {
 
             const cursor = productsCollection.find({})
             const packages = await cursor.toArray();
             res.send(packages);
+
+        })
+
+        // add product
+        app.post('/addProduct', async (req, res) => {
+            console.log('hit the post api', req.body);
+            const productDetails = req.body;
+            const result = await productsCollection.insertOne(productDetails);
+            res.send(result);
 
         })
 
