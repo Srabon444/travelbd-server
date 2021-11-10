@@ -24,6 +24,7 @@ async function run() {
         await client.connect();
         const database = client.db('travelbdtshirtdb')
         const productsCollection = database.collection("allProducts");
+        const reviewsCollection = database.collection("allReviews");
         console.log('Mongodb Connect successfully!');
 
         // get all products
@@ -35,13 +36,19 @@ async function run() {
 
         })
 
-        // add product
+        // add Product
         app.post('/addProduct', async (req, res) => {
-            console.log('hit the post api', req.body);
             const productDetails = req.body;
             const result = await productsCollection.insertOne(productDetails);
             res.send(result);
 
+        })
+
+        // add Review
+        app.post('/addReview', async (req, res) => {
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
+            res.send(result);
         })
 
 
