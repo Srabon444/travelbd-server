@@ -26,6 +26,7 @@ async function run() {
         const productsCollection = database.collection("allProducts");
         const reviewsCollection = database.collection("allReviews");
         const ordersCollection = database.collection("allOrders");
+        const usersCollection = database.collection("allUsers");
         console.log('Mongodb Connect successfully!');
 
         // get all products
@@ -42,10 +43,6 @@ async function run() {
             const orders = await cursor.toArray();
             res.send(orders)
         })
-
-
-
-
 
         // add Product
         app.post('/addProduct', async (req, res) => {
@@ -127,6 +124,21 @@ async function run() {
         });
 
 
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            res.json(result);
+            console.log(result);
+        })
+
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
+        })
 
 
     }
