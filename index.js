@@ -113,10 +113,9 @@ async function run() {
         // order status update
         app.put("/statusUpdate/:id", async (req, res) => {
             const filter = { _id: ObjectId(req.params.id) };
-            console.log(req.params.id);
             const result = await ordersCollection.updateOne(filter, {
                 $set: {
-                    status: req.body.newStatus,
+                    status: req.body.status,
                 },
             });
             res.send(result);
@@ -138,6 +137,16 @@ async function run() {
             const updateDoc = { $set: user };
             const result = await usersCollection.updateOne(filter, updateDoc, options);
             res.json(result);
+        })
+
+        app.put('/users/admin', async (req, res) => {
+            const user = req.body;
+            console.log('put', user);
+            const filter = { email: user.email };
+            const updateDoc = { $set: { role: 'admin' } }
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+
         })
 
 
