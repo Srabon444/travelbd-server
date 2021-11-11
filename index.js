@@ -115,7 +115,7 @@ async function run() {
             const filter = { _id: ObjectId(req.params.id) };
             const result = await ordersCollection.updateOne(filter, {
                 $set: {
-                    status: req.body.status,
+                    status: req.body.newStatus,
                 },
             });
             res.send(result);
@@ -158,6 +158,7 @@ async function run() {
                 isAdmin = true;
             }
             res.json({ admin: isAdmin });
+
         })
 
 
