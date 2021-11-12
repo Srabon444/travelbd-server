@@ -68,7 +68,8 @@ async function run() {
 
         // get All Review
         app.get('/reviews', async (req, res) => {
-            const cursor = reviewsCollection.find({})
+            // const cursor = reviewsCollection.find({})
+            const cursor = reviewsCollection.find({}).sort({ _id: -1 }).limit(10)
             const result = await cursor.toArray();
             res.send(result);
         })
