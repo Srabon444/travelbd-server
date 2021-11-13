@@ -123,7 +123,7 @@ async function run() {
             console.log(result);
         });
 
-
+        // add user
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
@@ -131,6 +131,7 @@ async function run() {
             console.log(result);
         })
 
+        // update user collection when new user login throw google, and don't store duplicate
         app.put('/users', async (req, res) => {
             const user = req.body;
             const filter = { email: user.email };
@@ -140,6 +141,7 @@ async function run() {
             res.json(result);
         })
 
+        // make admin by updating user role
         app.put('/users/admin', async (req, res) => {
             const user = req.body;
             console.log('put', user);
@@ -150,6 +152,7 @@ async function run() {
 
         })
 
+        // finding the user is admin or not by email 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
