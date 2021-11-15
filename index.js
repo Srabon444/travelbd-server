@@ -112,17 +112,33 @@ async function run() {
         })
 
 
-        // order status update
+        // order status update | way 1
+        // app.put("/statusUpdate/:id", async (req, res) => {
+        //     const filter = { _id: ObjectId(req.params.id) };
+        //     const result = await ordersCollection.updateOne(filter, {
+        //         $set: {
+        //             status: req.body.newStatus,
+        //         },
+        //     });
+        //     res.send(result);
+        //     console.log(result);
+        // });
+
+
+        // order status update | way 2
         app.put("/statusUpdate/:id", async (req, res) => {
+            console.log(req.params.id);
             const filter = { _id: ObjectId(req.params.id) };
             const result = await ordersCollection.updateOne(filter, {
                 $set: {
-                    status: req.body.newStatus,
+                    status: "Shipped",
                 },
             });
             res.send(result);
             console.log(result);
         });
+
+
 
         // add user
         app.post('/users', async (req, res) => {
